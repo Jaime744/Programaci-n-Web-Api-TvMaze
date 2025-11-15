@@ -40,3 +40,26 @@
 .read-the-docs {
   color: #888;
 }
+
+
+/*Dialog favs*/
+
+.fav-dialog {
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.fav-card {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
