@@ -41,7 +41,7 @@ function App() {
       favDialog.current.showModal();
     }
   };
-
+//<p dangerouslySetInnerHTML={{__html: show.summary}}></p>
     const handleCloseModal = () => setSelectedShow(null);
   return (
     <div className="App">
@@ -54,7 +54,7 @@ function App() {
             <div key={show.id} className='show-card'>
                 <h2>{show.name}</h2>
                 {show.image && <img src={show.image.medium} alt={show.name} />}
-                <p dangerouslySetInnerHTML={{__html: show.summary}}></p>
+                <br></br>
                 <button onClick={() => addToFavList(show)}>Agregar a Favoritos</button>
             </div>
         ))}
@@ -66,13 +66,15 @@ function App() {
       {FavList.length === 0 ? (
         <p>No hay favoritos</p>
       ) : (
-        FavList.map(show => (
+        <div className='Fav-Container'>
+        {FavList.map(show => (
           <div key={show.id} className="fav-card">
             <h3>{show.name}</h3>
             {show.image && <img src={show.image.medium} alt={show.name} />}
             <button onClick={() => removeFromFavList(show.id)}>Quitar</button>
           </div>
-        ))
+        ))}
+        </div>
       )}
       <button className="close-btn" onClick={() => favDialog.current.close()}>Cerrar</button>
     </dialog>

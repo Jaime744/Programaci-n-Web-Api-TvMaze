@@ -41,6 +41,31 @@
   color: #888;
 }
 
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;  
+  justify-content: center;
+  gap: 50px;
+  margin-top: 10px;
+}
+
+.show-card {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  width: 200px;           
+  background: rgb(41, 41, 41);
+  text-align: center;
+}
+.show-card img {
+  
+  justify-content: center;
+  align-items: center;
+
+}
+
+
 
 /*Dialog favs*/
 
@@ -48,9 +73,9 @@
   padding: 20px;
   border-radius: 10px;
   border: none;
-  width: 400px;
-  max-height: 80vh;
-  overflow-y: auto;
+  width: auto;        
+  max-width: 90vw;    
+  max-height: 90vh;   
 }
 
 .fav-card {
@@ -62,4 +87,24 @@
   margin-top: 15px;
   padding: 8px 12px;
   cursor: pointer;
+}
+
+.Fav-Container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;               
+  overflow-x: auto;        
+  padding: 10px;
+}
+
+.fav-card {
+  min-width: 200px;       
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgb(43, 43, 43);
+  text-align: center;
 }
