@@ -32,6 +32,19 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+.heart-icon {
+  font-size: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.heart-icon.empty {
+  color: #aaa; /* gris */
+}
+
+.heart-icon.filled {
+  color: red;
+  transform: scale(1.2);
+}
 
 .card {
   padding: 2em;

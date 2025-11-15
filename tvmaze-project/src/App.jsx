@@ -1,4 +1,4 @@
-import { useState,useRef } from 'react'
+import { useState,useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -9,9 +9,18 @@ function App() {
     const [results, setResults] = useState([])        
     const [selectedShow, setSelectedShow] = useState(null)
 
-    const[FavList,setFavList]= useState ([]);
+    //const[FavList,setFavList]= useState ([]);
      const favDialog = useRef(null);
      const showInfoDialog = useRef(null);
+     // guardado en local storage 
+    const [FavList, setFavList] = useState(() => {
+    const stored = localStorage.getItem("FavList");
+    return stored ? JSON.parse(stored) : [];
+    });
+
+     useEffect(()=>{
+      localStorage.setItem("FavList",JSON.stringify(FavList));
+     },[FavList])
 
     const handleSearch = async (query) => {
     const apiRes = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
@@ -55,6 +64,7 @@ function App() {
     <div className="App">
       <NavBar onSearch={handleSearch}
       onToggleList={handleToggleList}
+       hasFavorites={FavList.length > 0}
       />
       
       <div className='results-container'>
@@ -76,6 +86,7 @@ function App() {
           <div key={show.id} className="fav-card">
             <h3>{show.name}</h3>
             {show.image && <img src={show.image.medium} alt={show.name} />}
+            <br></br>
             <button onClick={() => removeFromFavList(show.id)}>Quitar</button>
           </div>
         ))}

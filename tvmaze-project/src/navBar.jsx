@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import "./index.css";
 
-export default function NavBar({ onSearch, onToggleList }) {
+export default function NavBar({ onSearch, onToggleList ,hasFavorites}) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
@@ -12,7 +12,7 @@ export default function NavBar({ onSearch, onToggleList }) {
       setQuery("");
     }
   };
-
+// <button type="button" onClick={onToggleList} className="nav-FavButton"> ❤️ </button>
   return (
     <nav className="nav-bar">
       <div className="nav-BarContainer">
@@ -20,7 +20,7 @@ export default function NavBar({ onSearch, onToggleList }) {
         <form onSubmit={handleSubmit} className="nav-BarForm">
           <input type="text" placeholder="Buscar serie" value={query} onChange={(e) => setQuery(e.target.value)} className="nav-BarInput" />
           <button type="submit" className="nav-BarButton"> Buscar</button>
-          <button type="button" onClick={onToggleList} className="nav-FavButton"> ❤️ </button>
+          <button type="button" onClick={onToggleList} className={`heart-icon ${hasFavorites ? 'filled' : 'empty'}`}>❤</button>
         </form>
       </div>
     </nav>
