@@ -68,7 +68,6 @@ function App() {
 
     <dialog ref={favDialog} className="fav-dialog">
       <h2>Favoritos</h2>
-
       {FavList.length === 0 ? (
         <p>No hay favoritos</p>
       ) : (
