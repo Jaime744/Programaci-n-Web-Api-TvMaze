@@ -11,6 +11,7 @@ function App() {
 
     const[FavList,setFavList]= useState ([]);
      const favDialog = useRef(null);
+     const showInfoDialog = useRef(null);
 
     const handleSearch = async (query) => {
     const apiRes = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
@@ -41,8 +42,15 @@ function App() {
       favDialog.current.showModal();
     }
   };
+  const openShowInfo =(show)=>{
+    setSelectedShow(show)
+    showInfoDialog.current.showModal();
+  }
 //<p dangerouslySetInnerHTML={{__html: show.summary}}></p>
-    const handleCloseModal = () => setSelectedShow(null);
+    const handleCloseModal = () => {
+      setSelectedShow(null);
+      showInfoDialog.current.close();
+    }
   return (
     <div className="App">
       <NavBar onSearch={handleSearch}
@@ -53,9 +61,7 @@ function App() {
         {results.map(show => (
             <div key={show.id} className='show-card'>
                 <h2>{show.name}</h2>
-                {show.image && <img src={show.image.medium} alt={show.name} />}
-                <br></br>
-                <button onClick={() => addToFavList(show)}>Agregar a Favoritos</button>
+                {show.image && <img src={show.image.medium} onClick={() => openShowInfo(show)} alt={show.name} />}
             </div>
         ))}
       </div>
@@ -78,6 +84,22 @@ function App() {
       )}
       <button className="close-btn" onClick={() => favDialog.current.close()}>Cerrar</button>
     </dialog>
+
+      <dialog ref={showInfoDialog} className='InfoSeries'>
+        {selectedShow && (
+        <>
+        <h2>Información de {selectedShow.name}</h2>
+        
+        {selectedShow.image && (
+          <img src={selectedShow.image.medium} alt={selectedShow.name} className='InfoImage'/>
+        )}
+        <p dangerouslySetInnerHTML={{__html: selectedShow.summary}}></p>
+        <button onClick={() => addToFavList(selectedShow)}>Agregar a Favoritos</button>
+        <button onClick={handleCloseModal }>Cerrar</button>
+        </>
+        )}
+      </dialog>
+
   </div>
   )
   
