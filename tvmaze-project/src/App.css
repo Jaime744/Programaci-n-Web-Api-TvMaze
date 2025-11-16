@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap');
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: 'Lexend';
 }
 
 .logo {
@@ -43,6 +45,18 @@
 
 .heart-icon.filled {
   color: red;
+  transform: scale(1.2);
+}
+
+.star-icon{
+  font-size: 14px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.star-icon.empty {
+  color: #aaa; 
+}
+.star-icon.filled {
+  color: rgb(238, 255, 0);
   transform: scale(1.2);
 }
 

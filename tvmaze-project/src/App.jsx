@@ -8,19 +8,51 @@ import NavBar from './navBar.jsx'
 function App() {
     const [results, setResults] = useState([])        
     const [selectedShow, setSelectedShow] = useState(null)
-
+    
     //const[FavList,setFavList]= useState ([]);
      const favDialog = useRef(null);
      const showInfoDialog = useRef(null);
+
+     
      // guardado en local storage 
     const [FavList, setFavList] = useState(() => {
     const stored = localStorage.getItem("FavList");
     return stored ? JSON.parse(stored) : [];
     });
-
      useEffect(()=>{
       localStorage.setItem("FavList",JSON.stringify(FavList));
      },[FavList])
+
+
+
+    const addToFavList = (show) => {
+      if (!FavList.find(favShow => favShow.id === show.id)) {
+        setFavList([...FavList, show]);
+      }
+    }
+    const removeFromFavList = (showId) => {
+      setFavList(FavList.filter(show => show.id !== showId));
+    }
+    const handleToggleList = () => {
+      if (favDialog.current.open) {
+        favDialog.current.close();
+      } else {
+        favDialog.current.showModal();
+      }
+    };
+
+     // botón de favoritos con el icono de estrella 
+     const isFavorite = selectedShow && FavList.some(favShow => favShow.id === selectedShow.id);
+
+
+     const toggleFavorite =(selectedShow)=>{
+      if(FavList.some(favShow => favShow.id === selectedShow.id)){
+        removeFromFavList(selectedShow.id);
+      }else{
+        addToFavList(selectedShow);
+      }
+     }
+
 
     const handleSearch = async (query) => {
     const apiRes = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
@@ -36,21 +68,7 @@ function App() {
         };
     } 
     
-    const addToFavList = (show) => {
-      if (!FavList.find(favShow => favShow.id === show.id)) {
-        setFavList([...FavList, show]);
-      }
-    }
-    const removeFromFavList = (showId) => {
-      setFavList(FavList.filter(show => show.id !== showId));
-    }
-    const handleToggleList = () => {
-    if (favDialog.current.open) {
-      favDialog.current.close();
-    } else {
-      favDialog.current.showModal();
-    }
-  };
+    
   const openShowInfo =(show)=>{
     setSelectedShow(show)
     showInfoDialog.current.showModal();
@@ -85,7 +103,7 @@ function App() {
         {FavList.map(show => (
           <div key={show.id} className="fav-card">
             <h3>{show.name}</h3>
-            {show.image && <img src={show.image.medium} alt={show.name} />}
+            {show.image && <img src={show.image.medium} alt={show.name} onClick={() => openShowInfo(show)} />}
             <br></br>
             <button onClick={() => removeFromFavList(show.id)}>Quitar</button>
           </div>
@@ -98,13 +116,13 @@ function App() {
       <dialog ref={showInfoDialog} className='InfoSeries'>
         {selectedShow && (
         <>
-        <h2>Información de {selectedShow.name}</h2>
+        <h2>{selectedShow.name}</h2>
         
         {selectedShow.image && (
-          <img src={selectedShow.image.medium} alt={selectedShow.name} className='InfoImage'/>
+          <img src={selectedShow.image.medium} alt={selectedShow.name} onClick={() => openShowInfo(show)} className='InfoImage'/>
         )}
         <p dangerouslySetInnerHTML={{__html: selectedShow.summary}}></p>
-        <button onClick={() => addToFavList(selectedShow)}>Agregar a Favoritos</button>
+        <button onClick={() => toggleFavorite(selectedShow)} className={`star-icon ${isFavorite ? 'filled' : 'empty'}`}>★</button> 
         <button onClick={handleCloseModal }>Cerrar</button>
         </>
         )}
