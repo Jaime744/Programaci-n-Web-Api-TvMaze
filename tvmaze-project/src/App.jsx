@@ -6,6 +6,7 @@ import NavBar from './navBar.jsx'
 
 
 function App() {
+  //
     const [results, setResults] = useState([])        
     const [selectedShow, setSelectedShow] = useState(null)
     
@@ -14,7 +15,7 @@ function App() {
      const showInfoDialog = useRef(null);
 
      
-     // guardado en local storage 
+     //Guardado en local storage 
     const [FavList, setFavList] = useState(() => {
     const stored = localStorage.getItem("FavList");
     return stored ? JSON.parse(stored) : [];
@@ -24,7 +25,7 @@ function App() {
      },[FavList])
 
 
-
+     // añade quita y maneja la lista de favoritos 
     const addToFavList = (show) => {
       if (!FavList.find(favShow => favShow.id === show.id)) {
         setFavList([...FavList, show]);
@@ -44,7 +45,7 @@ function App() {
      // botón de favoritos con el icono de estrella 
      const isFavorite = selectedShow && FavList.some(favShow => favShow.id === selectedShow.id);
 
-
+    //para volver a pulsar el boton y que se quite de favoritos 
      const toggleFavorite =(selectedShow)=>{
       if(FavList.some(favShow => favShow.id === selectedShow.id)){
         removeFromFavList(selectedShow.id);
@@ -53,7 +54,7 @@ function App() {
       }
      }
 
-
+     // función que maneja las busquedas 
     const handleSearch = async (query) => {
     const apiRes = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
         if (!apiRes.ok) {
@@ -68,23 +69,25 @@ function App() {
         };
     } 
     
-    
+  // función que abre la info de la sere
   const openShowInfo =(show)=>{
     setSelectedShow(show)
     showInfoDialog.current.showModal();
   }
-//<p dangerouslySetInnerHTML={{__html: show.summary}}></p>
+    //funcion que cierra la informacion y limpia el modal 
     const handleCloseModal = () => {
       setSelectedShow(null);
       showInfoDialog.current.close();
     }
   return (
+    
     <div className="App">
+      {/* Barra de navegación pasa los handlers y estado derivado */}
       <NavBar onSearch={handleSearch}
       onToggleList={handleToggleList}
        hasFavorites={FavList.length > 0}
       />
-      
+      {/* resultado que devuelve la api ante la busqueda que el hemos pasado */}
       <div className='results-container'>
         {results.map(show => (
             <div key={show.id} className='show-card'>
@@ -93,7 +96,7 @@ function App() {
             </div>
         ))}
       </div>
-
+      {/* dialog de Favoritos */}
     <dialog ref={favDialog} className="fav-dialog">
       <h2>Favoritos</h2>
       {FavList.length === 0 ? (
@@ -112,7 +115,7 @@ function App() {
       )}
       <button className="close-btn" onClick={() => favDialog.current.close()}>Cerrar</button>
     </dialog>
-
+      {/* dialog de la info de la serie  */}
       <dialog ref={showInfoDialog} className='InfoSeries'>
         {selectedShow && (
         <>

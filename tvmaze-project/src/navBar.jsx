@@ -12,7 +12,7 @@ export default function NavBar({ onSearch, onToggleList ,hasFavorites}) {
       setQuery("");
     }
   };
-// <button type="button" onClick={onToggleList} className="nav-FavButton"> ❤️ </button>
+
   return (
     <nav className="nav-bar">
       <div className="nav-BarContainer">
